@@ -1,11 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://ce5yp5wq0ahe8"]
 
-[ext_resource type="Script" path="res://piece.gd" id="1_x180d"]
-[ext_resource type="Texture2D" path="res://WhitePieces_Wood.png" id="2_ua3mc"]
+[ext_resource type="Script" path="res://src/piece.gd" id="1_x180d"]
+[ext_resource type="Texture2D" uid="uid://8i22g1ogqxq3" path="res://assets/WhitePieces_Wood.png" id="2_ua3mc"]
 
 [node name="Piece" type="Node2D"]
 script = ExtResource("1_x180d")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_ua3mc")
+offset = Vector2(8, 8)
 hframes = 6
