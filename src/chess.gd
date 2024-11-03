@@ -16,7 +16,6 @@ func _ready() -> void:
 	set_process_input(true)
 
 func setup_pieces() -> void:
-
 	for i in Constants.PIECE_ORDER.size():
 		place_piece(Constants.PIECE_ORDER[i], Constants.PieceColor.WHITE, grid_to_position(Vector2(i, 0)))
 		place_piece(Constants.PieceType.PAWN, Constants.PieceColor.WHITE, grid_to_position(Vector2(i, 1)))
@@ -54,30 +53,23 @@ func _input(event):
 
 		var clicked_piece = get_piece_at_position(mouse_pos)
 		
-		if clicked_piece:
-			print("Piece clicked: ", clicked_piece.piece_type, clicked_piece.piece_color)  # Debug: Log piece type and color
-		else:
-			print("No piece at clicked position")
-
 		if clicked_piece and clicked_piece.piece_color == (Constants.PieceColor.WHITE if is_white_turn else Constants.PieceColor.BLACK):
 			selected_piece = clicked_piece  # Select the piece if it belongs to the current player
 			print("Piece selected: ", selected_piece.piece_type)  # Debug: Log selected piece
 		elif selected_piece:
 			var target_grid = position_to_grid(mouse_pos)
 			print("Attempting move to grid: ", target_grid)  # Debug: Log target grid
-			attempt_move(selected_piece, target_grid)
+
+func get_square_grid_coordinates_from_click(pos: Vector2) -> Vector2:
+	var start_position : Vector2 = TopLeft.position
+	var grid_position = (pos - start_position) / square_size
+	grid_position.x = round(grid_position.x)
+	grid_position.y = round(grid_position.y)
+	return grid_position
 
 func get_piece_at_position(pos: Vector2):
-	# Iterate through all children to check if there's a piece at the mouse position
+	var grid_position = get_square_grid_coordinates_from_click(pos)
 	for child in get_children():
-		if child is Node2D and child.has_method("piece_type") and child.global_position.distance_to(pos) < float(square_size) / 2.0:
+		if child.has_method("piece_type") and child.position == grid_to_position(grid_position):
 			return child
 	return null
-
-func attempt_move(piece, target_grid):
-	var target_position = grid_to_position(target_grid)
-	piece.position = target_position
-	print("Moved piece to: ", target_position)  # Debug: Log piece movement
-
-	selected_piece = null
-	is_white_turn = not is_white_turn  # Switch turns

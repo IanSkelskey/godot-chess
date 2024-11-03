@@ -29,5 +29,6 @@ z_index = 2
 position = Vector2(8, 8)
 shape = SubResource("RectangleShape2D_vm3gx")
 
+[connection signal="input_event" from="ClickArea" to="." method="_on_click_area_input_event"]
 [connection signal="mouse_entered" from="ClickArea" to="." method="_on_click_area_mouse_entered"]
 [connection signal="mouse_exited" from="ClickArea" to="." method="_on_click_area_mouse_exited"]
