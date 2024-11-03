@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=4 uid="uid://b5wr5igbvlfc1"]
+[gd_scene load_steps=7 format=4 uid="uid://b5wr5igbvlfc1"]
 
 [ext_resource type="Texture2D" uid="uid://cwa5t0jfls5f0" path="res://assets/board_plain_05.png" id="1_hjk1y"]
 [ext_resource type="Script" path="res://src/chess.gd" id="1_m34s6"]
+[ext_resource type="PackedScene" uid="uid://bmwhkoun7g7qe" path="res://src/board_square.tscn" id="3_gdi5t"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1plm1"]
 texture = ExtResource("1_hjk1y")
@@ -106,8 +107,12 @@ texture = ExtResource("1_hjk1y")
 8:9/0 = 0
 9:9/0 = 0
 
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_vtfpn"]
+scenes/2/scene = ExtResource("3_gdi5t")
+
 [sub_resource type="TileSet" id="TileSet_htwlk"]
 sources/0 = SubResource("TileSetAtlasSource_1plm1")
+sources/1 = SubResource("TileSetScenesCollectionSource_vtfpn")
 
 [node name="Chess" type="Node2D"]
 script = ExtResource("1_m34s6")
