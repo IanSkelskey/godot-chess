@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://ce5yp5wq0ahe8"]
+[gd_scene load_steps=4 format=3 uid="uid://ce5yp5wq0ahe8"]
 
 [ext_resource type="Script" path="res://src/piece.gd" id="1_x180d"]
 [ext_resource type="Texture2D" uid="uid://8i22g1ogqxq3" path="res://assets/WhitePieces_Wood.png" id="2_ua3mc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bbk6p"]
+size = Vector2(12, 15)
 
 [node name="Piece" type="Node2D"]
 script = ExtResource("1_x180d")
@@ -10,3 +13,9 @@ script = ExtResource("1_x180d")
 texture = ExtResource("2_ua3mc")
 offset = Vector2(8, 8)
 hframes = 6
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(8, 8.5)
+shape = SubResource("RectangleShape2D_bbk6p")
