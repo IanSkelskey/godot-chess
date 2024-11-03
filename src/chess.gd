@@ -86,12 +86,18 @@ func _input(event):
 			print("Attempting move to grid: ", target_grid)  # Debug: Log target grid
 			attempt_move(selected_piece, target_grid)
 
-func get_piece_at_position(pos: Vector2):
-	# Iterate through all children to check if there's a piece at the mouse position
+func get_piece_at_position(pos: Vector2) -> Node2D:
+	# Iterate through all children to check if there's a piece at the specified position
 	for child in get_children():
-		if child is Node2D and child.has_method("piece_type") and child.global_position.distance_to(pos) < float(square_size) / 2.0:
-			return child
+		if child is Node2D and child.has_meta("piece_type"):
+			var piece_top_left = child.global_position
+			var piece_bottom_right = piece_top_left + Vector2(square_size, square_size)
+
+			# Check if the position is within the boundaries of this piece's "box"
+			if pos.x >= piece_top_left.x and pos.x <= piece_bottom_right.x and pos.y >= piece_top_left.y and pos.y <= piece_bottom_right.y:
+				return child
 	return null
+
 
 func attempt_move(piece, target_grid):
 	var target_position = grid_to_position(target_grid)
