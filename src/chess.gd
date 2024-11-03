@@ -16,32 +16,13 @@ func _ready() -> void:
 	set_process_input(true)
 
 func setup_pieces() -> void:
-	# Place the white pieces
-	place_piece(Constants.PieceType.ROOK, Constants.PieceColor.WHITE, grid_to_position(Vector2(0, 0)))
-	place_piece(Constants.PieceType.KNIGHT, Constants.PieceColor.WHITE, grid_to_position(Vector2(1, 0)))
-	place_piece(Constants.PieceType.BISHOP, Constants.PieceColor.WHITE, grid_to_position(Vector2(2, 0)))
-	place_piece(Constants.PieceType.QUEEN, Constants.PieceColor.WHITE, grid_to_position(Vector2(3, 0)))
-	place_piece(Constants.PieceType.KING, Constants.PieceColor.WHITE, grid_to_position(Vector2(4, 0)))
-	place_piece(Constants.PieceType.BISHOP, Constants.PieceColor.WHITE, grid_to_position(Vector2(5, 0)))
-	place_piece(Constants.PieceType.KNIGHT, Constants.PieceColor.WHITE, grid_to_position(Vector2(6, 0)))
-	place_piece(Constants.PieceType.ROOK, Constants.PieceColor.WHITE, grid_to_position(Vector2(7, 0)))
-	
-	# Place the white pawns
-	for i in range(8):
+
+	for i in Constants.PIECE_ORDER.size():
+		place_piece(Constants.PIECE_ORDER[i], Constants.PieceColor.WHITE, grid_to_position(Vector2(i, 0)))
 		place_piece(Constants.PieceType.PAWN, Constants.PieceColor.WHITE, grid_to_position(Vector2(i, 1)))
 	
-	# Place the black pieces
-	place_piece(Constants.PieceType.ROOK, Constants.PieceColor.BLACK, grid_to_position(Vector2(0, 7)))
-	place_piece(Constants.PieceType.KNIGHT, Constants.PieceColor.BLACK, grid_to_position(Vector2(1, 7)))
-	place_piece(Constants.PieceType.BISHOP, Constants.PieceColor.BLACK, grid_to_position(Vector2(2, 7)))
-	place_piece(Constants.PieceType.QUEEN, Constants.PieceColor.BLACK, grid_to_position(Vector2(3, 7)))
-	place_piece(Constants.PieceType.KING, Constants.PieceColor.BLACK, grid_to_position(Vector2(4, 7)))
-	place_piece(Constants.PieceType.BISHOP, Constants.PieceColor.BLACK, grid_to_position(Vector2(5, 7)))
-	place_piece(Constants.PieceType.KNIGHT, Constants.PieceColor.BLACK, grid_to_position(Vector2(6, 7)))
-	place_piece(Constants.PieceType.ROOK, Constants.PieceColor.BLACK, grid_to_position(Vector2(7, 7)))
-
-	# Place the black pawns
-	for i in range(8):
+	for i in Constants.PIECE_ORDER.size():
+		place_piece(Constants.PIECE_ORDER[i], Constants.PieceColor.BLACK, grid_to_position(Vector2(i, 7)))
 		place_piece(Constants.PieceType.PAWN, Constants.PieceColor.BLACK, grid_to_position(Vector2(i, 6)))
 
 func setup_squares() -> void:
@@ -86,18 +67,12 @@ func _input(event):
 			print("Attempting move to grid: ", target_grid)  # Debug: Log target grid
 			attempt_move(selected_piece, target_grid)
 
-func get_piece_at_position(pos: Vector2) -> Node2D:
-	# Iterate through all children to check if there's a piece at the specified position
+func get_piece_at_position(pos: Vector2):
+	# Iterate through all children to check if there's a piece at the mouse position
 	for child in get_children():
-		if child is Node2D and child.has_meta("piece_type"):
-			var piece_top_left = child.global_position
-			var piece_bottom_right = piece_top_left + Vector2(square_size, square_size)
-
-			# Check if the position is within the boundaries of this piece's "box"
-			if pos.x >= piece_top_left.x and pos.x <= piece_bottom_right.x and pos.y >= piece_top_left.y and pos.y <= piece_bottom_right.y:
-				return child
+		if child is Node2D and child.has_method("piece_type") and child.global_position.distance_to(pos) < float(square_size) / 2.0:
+			return child
 	return null
-
 
 func attempt_move(piece, target_grid):
 	var target_position = grid_to_position(target_grid)

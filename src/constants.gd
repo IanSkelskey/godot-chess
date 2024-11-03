@@ -14,3 +14,14 @@ enum PieceColor {
 	WHITE,
 	BLACK
 }
+
+const PIECE_ORDER = [
+	PieceType.ROOK,
+	PieceType.KNIGHT,
+	PieceType.BISHOP,
+	PieceType.QUEEN,
+	PieceType.KING,
+	PieceType.BISHOP,
+	PieceType.KNIGHT,
+	PieceType.ROOK
+]
